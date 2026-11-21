@@ -7,6 +7,7 @@ import { assetSrc } from "@/lib/media";
 import { formatTez, usdFromMutez } from "@/lib/currency";
 import type { WorkView } from "@/lib/repo";
 import { CryptoIcon } from "./visuals/CryptoIcon";
+import { LikeButton } from "./LikeButton";
 
 export const fmtLikes = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n));
 
@@ -36,12 +37,7 @@ export function WorkCard({ work: d, usdRate, priority = false }: { work: WorkVie
               {usdFromMutez(d.priceMutez, usdRate)}
             </span>
           </span>
-          <span className="card-likes">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 21s-8-4.9-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.6C20 16.1 12 21 12 21z" />
-            </svg>
-            {fmtLikes(d.likes)}
-          </span>
+          <LikeButton id={d.id} initialLikes={d.likes} />
         </div>
       </div>
     </Link>

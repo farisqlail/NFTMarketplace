@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Unbounded, Manrope, JetBrains_Mono } from "next/font/google";
 import { AccountProvider } from "@/lib/account";
+import { WalletProvider } from "@/lib/wallet";
 import { getViewer } from "@/lib/viewer";
 import { PriceStrip } from "@/components/PriceStrip";
 import { ToastProvider } from "@/components/Toaster";
@@ -50,10 +51,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body suppressHydrationWarning>
         <AccountProvider initialAccount={account}>
-          <ToastProvider>
-            <PriceStrip />
-            {children}
-          </ToastProvider>
+          <WalletProvider>
+            <ToastProvider>
+              <PriceStrip />
+              {children}
+            </ToastProvider>
+          </WalletProvider>
         </AccountProvider>
       </body>
     </html>

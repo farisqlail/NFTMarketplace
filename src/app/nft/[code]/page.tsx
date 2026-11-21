@@ -14,6 +14,7 @@ import { notFound } from "next/navigation";
 import { TopBar } from "@/components/TopBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WorkCard, fmtLikes } from "@/components/WorkCard";
+import { BuyButton } from "@/components/BuyButton";
 import { assetSrc } from "@/lib/media";
 import { formatTez, usdFromMutez } from "@/lib/currency";
 import { fmtDate } from "@/lib/format";
@@ -110,16 +111,7 @@ export default async function ItemPage({ params }: { params: Promise<{ code: str
                 <b>{formatTez(work.priceMutez)}</b>
                 <span>≈ {usdFromMutez(work.priceMutez, rate.usdPerTez)}{rate.stale ? " · delayed rate" : ""}</span>
               </div>
-              <button className="btn btn-primary btn-lg btn-block" disabled>
-                {soldOut ? "Sold out" : "Buy with tez"}
-              </button>
-              <p className="field-hint">
-                {work.restricted
-                  ? "Held back from sale until the legal review of property-linked tokens is complete."
-                  : soldOut
-                    ? "Every edition has been placed. Resale opens with the marketplace."
-                    : "Purchasing opens at launch. Each work is minted on Tezos at its first sale, so you pay the mint, not a reseller."}
-              </p>
+              <BuyButton work={work} soldOut={soldOut} usdRate={rate.usdPerTez} />
             </div>
 
             <div className="factgrid item-facts">

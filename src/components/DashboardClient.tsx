@@ -12,6 +12,7 @@ import { RankingTable } from "@/components/charts/RankingTable";
 import { SuggestionsInbox, ReviewLinks } from "@/components/SuggestionsInbox";
 import { ClientHoldings } from "@/components/ClientHoldings";
 import { useAccount } from "@/lib/account";
+import { useWallet, formatAddress } from "@/lib/wallet";
 import type {
   BuyerView, CategoryView, InternalWorkView, KpiView, LikedView, SalePoint, SuggestionView, WorkView,
 } from "@/lib/repo";
@@ -35,6 +36,7 @@ export function DashboardClient({
 }) {
   const router = useRouter();
   const { account: user, ready } = useAccount();
+  const { address, network, isConnected } = useWallet();
 
   useEffect(() => {
     if (ready && !user) router.replace("/login");
@@ -79,7 +81,14 @@ export function DashboardClient({
               </p>
               <h1>{user.displayName || user.email.split("@")[0]}</h1>
               <p className="mono" style={{ fontSize: 11, color: "var(--ink-4)", margin: "4px 0 0" }}>
-                {user.email} · member since {user.createdAt.slice(0, 10)} · wallet: coming soon
+                {user.email} · member since {user.createdAt.slice(0, 10)} · wallet:{" "}
+                {isConnected && address ? (
+                  <span style={{ color: "var(--sig-green)" }}>
+                    {formatAddress(address)} ({network})
+                  </span>
+                ) : (
+                  "not connected"
+                )}
               </p>
             </div>
           </div>
